@@ -23,5 +23,5 @@ def get_files_info(working_directory, directory="."):
             return f'Error: Cannot list "{directory}" as it is outside the permitted working directory.'
         elif e.args[0] == 'not dir':
             return f'Error: "{directory}" is not a directory'
-        else: return 'Error: Unknown error occured'
+        else: return 'Error: Unknown error occured while listing directory'
 
