@@ -1,12 +1,11 @@
 import os
 from config import MAX_CHAR
+from utility.validate_path import validate_path
 
 def get_file_content(working_directory, file_path):
     try:
-        # Validate path
-        absolute_wd = os.path.abspath(working_directory)
-        target_file = os.path.normpath(os.path.join(absolute_wd, file_path))
-        validate = os.path.commonpath([absolute_wd, target_file]) == absolute_wd
+        validate, target_file = validate_path(working_directory, file_path)
+        
         if not validate:
             return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
         if not os.path.isfile(target_file):
@@ -19,4 +18,4 @@ def get_file_content(working_directory, file_path):
                 content += f'[...File "{file_path}" truncated at {MAX_CHAR} characters]'
             return content
     except Exception as e:
-        return f'Error: {e}'
+        return f'Error: get_file_content {e}'
