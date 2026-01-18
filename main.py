@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from prompts import system_prompt
+from call_function import available_functions
 # Argparse
 parser = argparse.ArgumentParser(description='Chatbot')
 parser.add_argument(
@@ -31,7 +32,10 @@ messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)]
 response = client.models.generate_content(
         model='gemini-2.5-flash', 
         contents=messages,
-        config=types.GenerateContentConfig(system_instruction=system_prompt)
+        config=types.GenerateContentConfig(
+            system_instruction=system_prompt,
+            tools=[available_functions]
+            )
         )
 if response.usage_metadata == None: 
     raise RuntimeError(
@@ -45,3 +49,6 @@ else:
             '\nResponse tokens:', response.usage_metadata.candidates_token_count
             )
 print('Gemini response:', response.text)
+if response.function_calls:
+    for function in response.function_calls:
+        print(f'Calling function: {function.name}({function.args})')
