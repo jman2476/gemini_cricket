@@ -29,12 +29,12 @@ def main():
     if args.verbose:
         print('User prompt:')
         print(args.user_prompt)
-
+    
     # Create Gemini client
     client = genai.Client(api_key=api_key)
     messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
 
-    max_cycles = os.environ.get("MAX_CYCLES")
+    max_cycles = int(os.environ.get("MAX_CALLS"))
     for _ in range(max_cycles):
         cycle = generate_response(client, messages, args.verbose)
         if cycle == 'Done':
