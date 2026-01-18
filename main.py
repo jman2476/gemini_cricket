@@ -3,7 +3,7 @@ import argparse
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-
+from prompts import system_prompt
 # Argparse
 parser = argparse.ArgumentParser(description='Chatbot')
 parser.add_argument(
@@ -30,7 +30,8 @@ messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)]
 # Call Gemini API
 response = client.models.generate_content(
         model='gemini-2.5-flash', 
-        contents=messages
+        contents=messages,
+        config=types.GenerateContentConfig(system_instruction=system_prompt)
         )
 if response.usage_metadata == None: 
     raise RuntimeError(
