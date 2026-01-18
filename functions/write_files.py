@@ -12,7 +12,8 @@ def write_file(working_directory, file_path, content):
         if os.path.isdir(target_file):
             return f'Error: Cannot write to "{file_path}": it is a directory'
 
-        os.makedirs(file_path, exist_ok=True)
+        dir_path = '/'.join(target_file.split('/')[:-1])
+        os.makedirs(dir_path, exist_ok=True)
         
         with open(target_file, 'w') as file:
             file.write(content)
@@ -21,8 +22,8 @@ def write_file(working_directory, file_path, content):
     except Exception as e:
         return f'Error: write_file {e}'
 
-schema_write_files = types.FunctionDeclaration(
-    name='write_files',
+schema_write_file = types.FunctionDeclaration(
+    name='write_file',
     description='Write or overwrite file at the given file path, with the content provided',
     parameters=types.Schema(
         type=types.Type.OBJECT,

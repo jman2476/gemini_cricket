@@ -6,7 +6,6 @@ def run_python_file(working_directory, file_path, args=None):
     try:
         validate, target_file, cwd = validate_path(
             working_directory, file_path, ret_safe_dir=True)
-
         if args and '-f' in args:
             return 'Error: the force flag "-f" is not allowed for security'
         if not validate:
@@ -19,7 +18,6 @@ def run_python_file(working_directory, file_path, args=None):
         command = ['python', target_file]
         if args:
             command.extend(args)
-
         result = subprocess.run(
             command, 
             cwd=cwd, 
@@ -27,10 +25,9 @@ def run_python_file(working_directory, file_path, args=None):
             capture_output=True, 
             text=True
             )
-
         output = ''
 
-        if result.returncode() != 0:
+        if result.returncode != 0:
             output += f'Process exited with code {result.returncode} \n'
         if not result.stdout and not result.stderr:
             output += 'No output produced'
