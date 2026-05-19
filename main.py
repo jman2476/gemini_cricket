@@ -87,3 +87,6 @@ def generate_response(client, messages, verbose):
 
 if __name__ == '__main__':
     main()
+
+
+    
